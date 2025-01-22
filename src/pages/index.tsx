@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/card";
 import { useForm } from "@tanstack/react-form";
 import { format } from "date-fns";
-import { Calendar as CalendarIcon } from "lucide-react";
+import { Calendar as CalendarIcon, Copy } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import {
   Popover,
@@ -34,7 +34,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { PlusCircle, Trash2, CheckCircle } from "lucide-react";
+import { PlusCircle, Trash2, CheckCircle, ClipboardCopy } from "lucide-react";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import Link from "next/link";
 import type { RouterOutputs } from "@/utils/api";
@@ -557,11 +557,21 @@ export default function Home() {
 
           {/* Assignments List */}
           <Card className="border-0 bg-[#1a1a1a] text-white/90">
-            <CardHeader>
-              <CardTitle>Current Assignments</CardTitle>
-              <CardDescription>
-                View and manage your existing assignments.
-              </CardDescription>
+            <CardHeader className="flex flex-row justify-between">
+              <div>
+                <CardTitle>Current Assignments</CardTitle>
+                <CardDescription>
+                  View and manage your existing assignments.
+                </CardDescription>
+              </div>
+              <Button
+                onMouseDown={() => {
+                  console.log("Click");
+                }}
+              >
+                <Copy />
+                Calendar Link
+              </Button>
             </CardHeader>
             <CardContent>
               {assignments.isLoading ? (
