@@ -164,7 +164,7 @@ export default function Home() {
       <main className="min-h-screen bg-[#121212] p-8">
         <div className="mx-auto max-w-4xl space-y-6">
           <h1 className="text-3xl font-medium text-white/90">
-            Assignment Manager
+            When the Assignment
           </h1>
 
           {/* Submit Form */}
