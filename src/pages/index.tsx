@@ -659,7 +659,11 @@ export default function Home() {
                                 </div>
                               </div>
                               <p className="mt-2 text-sm text-muted-foreground">
-                                Due: {dueDate.toLocaleDateString()}
+                                Due: {dueDate.toLocaleDateString()} at{" "}
+                                {dueDate.toLocaleTimeString([], {
+                                  hour: "2-digit",
+                                  minute: "2-digit",
+                                })}
                               </p>
                             </div>
                           </Link>
