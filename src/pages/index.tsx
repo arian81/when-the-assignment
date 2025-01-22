@@ -157,7 +157,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Assignment Manager</title>
+        <title>When the Assignment</title>
         <meta name="description" content="Manage your assignments" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -612,7 +612,7 @@ export default function Home() {
                         <div key={assignment.id}>
                           <Link
                             // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                            href={assignment.url || "#"}
+                            href={assignment.url ?? "#"}
                             target={assignment.url ? "_blank" : undefined}
                             className="flex-1 cursor-pointer"
                             onClick={(e) => {
