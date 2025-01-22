@@ -10,11 +10,25 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Post {
-    id        Int      @id @default(autoincrement())
-    name      String
+model Assignment {
+    id      Int      @id @default(autoincrement())
+    title   String
+    url     String?
+    dueDate DateTime
+
+    completed Boolean  @default(false)
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    @@index([name])
+    courseCode String
+    course     Course @relation(fields: [courseCode], references: [code])
+
+    @@index([dueDate])
+    @@index([courseCode])
+}
+
+model Course {
+    code        String       @id
+    name        String
+    assignments Assignment[]
 }
