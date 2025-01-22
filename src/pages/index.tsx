@@ -627,6 +627,10 @@ export default function Home() {
                                   <h3 className="text-lg font-semibold">
                                     {assignment.title}
                                   </h3>
+                                  <p className="text-sm text-muted-foreground">
+                                    {assignment.course.code} -{" "}
+                                    {assignment.course.name}
+                                  </p>
                                 </div>
                                 <div className="flex items-center gap-2">
                                   <div
