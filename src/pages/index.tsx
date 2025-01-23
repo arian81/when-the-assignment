@@ -34,7 +34,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { PlusCircle, Trash2, CheckCircle, ClipboardCopy } from "lucide-react";
+import { PlusCircle, Trash2, CheckCircle } from "lucide-react";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import Link from "next/link";
 import type { RouterOutputs } from "@/utils/api";
