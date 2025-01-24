@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/card";
 import { useForm } from "@tanstack/react-form";
 import { format } from "date-fns";
-import { Calendar as CalendarIcon, Copy } from "lucide-react";
+import { Calendar as CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import {
   Popover,
@@ -38,6 +38,7 @@ import { PlusCircle, Trash2, CheckCircle } from "lucide-react";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import Link from "next/link";
 import type { RouterOutputs } from "@/utils/api";
+import { env } from "@/env";
 
 type Assignment = RouterOutputs["assignment"]["get"][number];
 
@@ -565,12 +566,14 @@ export default function Home() {
                 </CardDescription>
               </div>
               <Button
-                onMouseDown={() => {
-                  console.log("Click");
+                onClick={async () => {
+                  await navigator.clipboard.writeText(
+                    env.SITE_URL + "/api/calendar",
+                  );
                 }}
               >
-                <Copy />
-                Calendar Link
+                <CalendarIcon />
+                Subscribe
               </Button>
             </CardHeader>
             <CardContent>
