@@ -39,6 +39,7 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import Link from "next/link";
 import type { RouterOutputs } from "@/utils/api";
 import { env } from "@/env";
+import ClipboardButton from "@/components/ClipboardButton";
 
 type Assignment = RouterOutputs["assignment"]["get"][number];
 
@@ -565,16 +566,9 @@ export default function Home() {
                   View and manage your existing assignments.
                 </CardDescription>
               </div>
-              <Button
-                onClick={async () => {
-                  await navigator.clipboard.writeText(
-                    env.SITE_URL + "/api/calendar",
-                  );
-                }}
-              >
-                <CalendarIcon />
-                Subscribe
-              </Button>
+              <ClipboardButton
+                textForCopying={env.NEXT_PUBLIC_SITE_URL + "/api/calendar"}
+              />
             </CardHeader>
             <CardContent>
               {assignments.isLoading ? (
