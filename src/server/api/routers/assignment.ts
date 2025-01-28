@@ -2,16 +2,21 @@ import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "../trpc";
 
 export const assignmentRouter = createTRPCRouter({
-  get: publicProcedure.query(async ({ ctx }) => {
-    return await ctx.db.assignment.findMany({
-      include: {
-        course: true,
-      },
-      orderBy: {
-        dueDate: "asc",
-      },
-    });
-  }),
+  get: publicProcedure
+    .input(z.object({ sessionId: z.string() }))
+    .query(async ({ ctx, input }) => {
+      return await ctx.db.assignment.findMany({
+        where: {
+          sessionId: input.sessionId,
+        },
+        include: {
+          course: true,
+        },
+        orderBy: {
+          dueDate: "asc",
+        },
+      });
+    }),
   create: publicProcedure
     .input(
       z.object({
@@ -21,6 +26,7 @@ export const assignmentRouter = createTRPCRouter({
           message: "Due date must be in the future",
         }),
         courseCode: z.string(),
+        sessionId: z.string(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -30,6 +36,7 @@ export const assignmentRouter = createTRPCRouter({
           url: input.url,
           dueDate: input.dueDate,
           courseCode: input.courseCode,
+          sessionId: input.sessionId,
         },
         include: {
           course: true,
