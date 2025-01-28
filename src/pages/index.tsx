@@ -61,10 +61,10 @@ export default function Home() {
       <div className="z-10 w-full max-w-5xl items-center justify-center font-mono text-sm">
         <div className="text-center">
           <h1 className="mb-4 text-4xl font-bold tracking-tight text-white">
-            Welcome to Your App
+            When The Assignment
           </h1>
           <p className="mb-8 text-xl text-muted-foreground">
-            Get started by creating a new session
+            Track and manage your upcoming assignments
           </p>
           <Button size="lg" onClick={startNewSession}>
             Start Session
