@@ -10,6 +10,12 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
+model Session {
+    id          String       @id @default(cuid())
+    createdAt   DateTime     @default(now())
+    assignments Assignment[]
+}
+
 model Assignment {
     id      Int      @id @default(autoincrement())
     title   String
@@ -23,8 +29,12 @@ model Assignment {
     courseCode String
     course     Course @relation(fields: [courseCode], references: [code])
 
+    sessionId String
+    session   Session @relation(fields: [sessionId], references: [id])
+
     @@index([dueDate])
     @@index([courseCode])
+    @@index([sessionId])
 }
 
 model Course {
