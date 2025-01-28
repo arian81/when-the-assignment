@@ -39,6 +39,8 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import Link from "next/link";
 import type { RouterOutputs } from "@/utils/api";
 import { useRouter } from "next/router";
+import ClipboardButton from "@/components/ClipboardButton";
+import { env } from "@/env";
 
 type Assignment = RouterOutputs["assignment"]["get"][number];
 
@@ -568,11 +570,16 @@ function Home({ sessionId }: { sessionId: string }) {
 
           {/* Assignments List */}
           <Card className="border-0 bg-[#1a1a1a] text-white/90">
-            <CardHeader>
-              <CardTitle>Current Assignments</CardTitle>
-              <CardDescription>
-                View and manage your existing assignments.
-              </CardDescription>
+            <CardHeader className="flex flex-row justify-between">
+              <div>
+                <CardTitle>Current Assignments</CardTitle>
+                <CardDescription>
+                  View and manage your existing assignments.
+                </CardDescription>
+              </div>
+              <ClipboardButton
+                textForCopying={env.NEXT_PUBLIC_SITE_URL + "/api/calendar"}
+              />
             </CardHeader>
             <CardContent>
               {session.isLoading ? (
