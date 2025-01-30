@@ -577,9 +577,21 @@ function Home({ sessionId }: { sessionId: string }) {
                   View and manage your existing assignments.
                 </CardDescription>
               </div>
-              <ClipboardButton
-                textForCopying={env.NEXT_PUBLIC_SITE_URL + "/api/calendar"}
-              />
+              <div className="flex flex-row space-x-3">
+                <ClipboardButton
+                  textForCopying={`http://${env.NEXT_PUBLIC_SITE_URL}/api/calendar?sessionId=${sessionId}`}
+                >
+                  Calendar Link
+                </ClipboardButton>
+                <a
+                  href={`webcal://${env.NEXT_PUBLIC_SITE_URL}/api/calendar?sessionId=${sessionId}`}
+                >
+                  <Button>
+                    <CalendarIcon />
+                    Subscribe
+                  </Button>
+                </a>
+              </div>
             </CardHeader>
             <CardContent>
               {session.isLoading ? (

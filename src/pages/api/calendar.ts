@@ -8,7 +8,16 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
+  if (req.method !== "GET") {
+    return res.status(404);
+  }
+
+  const { sessionId } = req.query;
+
   const assignments = await db.assignment.findMany({
+    where: {
+      sessionId: sessionId as string,
+    },
     include: { course: true },
   });
 

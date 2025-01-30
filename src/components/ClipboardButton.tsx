@@ -5,8 +5,10 @@ import { Check } from "lucide-react";
 
 export default function ClipboardButton({
   textForCopying,
+  children,
 }: {
   textForCopying: string;
+  children: React.ReactNode;
 }) {
   const [enabled, setEnabled] = React.useState(true);
 
@@ -17,11 +19,11 @@ export default function ClipboardButton({
   };
 
   return (
-    <Button className="" onClick={handleCopy}>
+    <Button onClick={handleCopy}>
       {enabled ? (
         <>
           <Clipboard />
-          Calendar Link
+          {children}
         </>
       ) : (
         <>
