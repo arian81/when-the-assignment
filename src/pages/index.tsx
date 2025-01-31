@@ -13,7 +13,26 @@ const sessionsArraySchema = z.array(sessionSchema);
 
 export default function Home() {
   const router = useRouter();
-  const { data } = api.session.create.useQuery();
+  const createSession = api.session.create.useMutation({
+    onSuccess: async (data) => {
+      try {
+        // Validate the new session ID
+        const validSessionId = z.string().cuid().parse(data);
+        const newSession = {
+          id: validSessionId,
+          createdAt: new Date().toISOString(),
+        };
+        const updatedSessions = [...sessions, newSession];
+        localStorage.setItem("sessions", JSON.stringify(updatedSessions));
+        setSessions(updatedSessions);
+        await router.push(`/session/${validSessionId}`, undefined, {
+          shallow: true,
+        });
+      } catch (error) {
+        console.error("Invalid session ID:", error);
+      }
+    },
+  });
   const [sessions, setSessions] = React.useState<
     z.infer<typeof sessionsArraySchema>
   >([]);
@@ -35,25 +54,8 @@ export default function Home() {
     }
   }, []);
 
-  const startNewSession = async () => {
-    if (data) {
-      try {
-        // Validate the new session ID
-        const validSessionId = z.string().cuid().parse(data);
-        const newSession = {
-          id: validSessionId,
-          createdAt: new Date().toISOString(),
-        };
-        const updatedSessions = [...sessions, newSession];
-        localStorage.setItem("sessions", JSON.stringify(updatedSessions));
-        setSessions(updatedSessions);
-        await router.push(`/session/${validSessionId}`, undefined, {
-          shallow: true,
-        });
-      } catch (error) {
-        console.error("Invalid session ID:", error);
-      }
-    }
+  const startNewSession = () => {
+    createSession.mutate();
   };
 
   return (
