@@ -57,7 +57,9 @@ export default async function handler(
     ics = [
       ics.slice(0, endI),
       `X-WR-CALNAME:My Courses\r\n`,
-      env.SITE_URL ? `X-ORIGINAL-URL:\r\n` : env.SITE_URL,
+      env.NEXT_PUBLIC_SITE_URL
+        ? `X-ORIGINAL-URL:\r\n`
+        : env.NEXT_PUBLIC_SITE_URL,
       ics.slice(endI),
     ].join("");
   }
