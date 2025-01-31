@@ -2,7 +2,7 @@ import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "../trpc";
 
 export const sessionRouter = createTRPCRouter({
-  create: publicProcedure.query(async ({ ctx }) => {
+  create: publicProcedure.mutation(async ({ ctx }) => {
     try {
       const session = await ctx.db.session.create({
         data: {},
@@ -12,7 +12,9 @@ export const sessionRouter = createTRPCRouter({
       });
       return session.id;
     } catch (error) {
-      throw new Error("Failed to create session");
+      throw new Error(
+        `Failed to create session: ${error instanceof Error ? error.message : String(error)}`,
+      );
     }
   }),
 
