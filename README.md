@@ -1,29 +1,106 @@
-# Create T3 App
+<div align="center">
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+<h3 align="center">When The Assignment</h3>
 
-## What's next? How do I make an app with this?
+  <p align="center">
+    A web application to track and manage your upcoming assignments.
+    <br />
+     <a href="https://github.com/arian81/when-the_assignment">github.com/arian81/when-the_assignment</a>
+  </p>
+</div>
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+## Table of Contents
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+      <ul>
+        <li><a href="#key-features">Key Features</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#installation">Installation</a></li>
+      </ul>
+    </li>
+    <li><a href="#acknowledgments">Acknowledgments</a></li>
+  </ol>
+</details>
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Drizzle](https://orm.drizzle.team)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+## About The Project
 
-## Learn More
+When The Assignment is a web application designed to help students and anyone else track and manage their assignments. It allows users to create sessions, add assignments with due dates and links, categorize them by course, and view them in a list. The application also provides a calendar link for subscribing to assignments in external calendar applications.
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+### Key Features
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+- **Session Management:** Create and manage sessions to organize assignments.
+- **Assignment Tracking:** Add assignments with titles, URLs, due dates, and course codes.
+- **Course Categorization:** Categorize assignments by course, making it easy to view assignments for a specific subject.
+- **Calendar Integration:** Subscribe to a calendar feed to view assignments in your preferred calendar application.
+- **Responsive UI:** Built with modern UI components for a smooth user experience.
+- **Local Storage:** Remembers previous sessions using local storage.
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+The project is built using the T3 Stack, which includes:
 
-## How do I deploy this?
+- **Frontend:** Next.js, React, Tailwind CSS, Radix UI, Geist UI, Lucide React
+- **Backend:** tRPC, Prisma
+- **Database:** PostgreSQL
+- **Other:** Zod for schema validation, Superjson for data serialization
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+## Getting Started
+
+To get started with the project, follow these steps:
+
+### Prerequisites
+
+- Node.js (version >= 20)
+- pnpm (version >= 9)
+- Docker (for running the PostgreSQL database)
+
+### Installation
+
+1.  **Clone the repository:**
+
+    ```sh
+    git clone https://github.com/arian81/when-the-assignment.git
+    cd when-the-assignment
+    ```
+
+2.  **Install dependencies:**
+
+    ```sh
+    pnpm install
+    ```
+
+3.  **Set up the database:**
+
+    - Copy `.env.example` to `.env` and modify the `DATABASE_URL` if necessary.
+    - Run the database using Docker:
+
+      ```sh
+      ./start-database.sh
+      ```
+
+4.  **Run Prisma migrations:**
+
+    ```sh
+    pnpm db:migrate
+    ```
+
+5.  **Start the development server:**
+
+    ```sh
+    pnpm dev
+    ```
+
+6.  **Access the application:**
+
+    Open your browser and navigate to `http://localhost:3000`.
+
+## Acknowledgments
+
+- This README was created using [gitreadme.dev](https://gitreadme.dev) — an AI tool that looks at your entire codebase to instantly generate high-quality README files.
