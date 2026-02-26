@@ -5,25 +5,25 @@
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
+    --foreground: 228 10% 10%;
     --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
+    --card-foreground: 228 10% 10%;
     --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-    --primary: 142.1 76.2% 36.3%;
-    --primary-foreground: 355.7 100% 97.3%;
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
-    --destructive: 0 84.2% 60.2%;
+    --popover-foreground: 228 10% 10%;
+    --primary: 38 92% 50%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 220 14% 96%;
+    --secondary-foreground: 220 9% 12%;
+    --muted: 220 14% 96%;
+    --muted-foreground: 220 9% 46%;
+    --accent: 220 14% 96%;
+    --accent-foreground: 220 9% 12%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 142.1 76.2% 36.3%;
-    --radius: 0.5rem;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 38 92% 50%;
+    --radius: 0.625rem;
     --chart-1: 12 76% 61%;
     --chart-2: 173 58% 39%;
     --chart-3: 197 37% 24%;
@@ -32,25 +32,25 @@
   }
 
   .dark {
-    --background: 20 14.3% 4.1%;
-    --foreground: 0 0% 95%;
-    --card: 24 9.8% 10%;
-    --card-foreground: 0 0% 95%;
-    --popover: 0 0% 9%;
-    --popover-foreground: 0 0% 95%;
-    --primary: 142.1 70.6% 45.3%;
-    --primary-foreground: 144.9 80.4% 10%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 15%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 12 6.5% 15.1%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 85.7% 97.3%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 142.4 71.8% 29.2%;
+    --background: 228 18% 6%;
+    --foreground: 210 20% 92%;
+    --card: 225 16% 9%;
+    --card-foreground: 210 20% 92%;
+    --popover: 225 18% 8%;
+    --popover-foreground: 210 20% 92%;
+    --primary: 38 92% 50%;
+    --primary-foreground: 38 100% 8%;
+    --secondary: 224 14% 14%;
+    --secondary-foreground: 210 20% 88%;
+    --muted: 224 14% 14%;
+    --muted-foreground: 218 11% 50%;
+    --accent: 224 12% 16%;
+    --accent-foreground: 210 20% 92%;
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 0 86% 97%;
+    --border: 224 12% 16%;
+    --input: 224 12% 16%;
+    --ring: 38 92% 45%;
     --chart-1: 220 70% 50%;
     --chart-2: 160 60% 45%;
     --chart-3: 30 80% 55%;
@@ -65,5 +65,157 @@
   }
   body {
     @apply bg-background text-foreground;
+    background-color: hsl(228 18% 6%);
+  }
+}
+
+@layer utilities {
+  /* Noise texture overlay */
+  .noise-bg {
+    position: relative;
+  }
+  .noise-bg::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 256px 256px;
+    pointer-events: none;
+    z-index: 0;
+    border-radius: inherit;
+  }
+
+  /* Glass card effect */
+  .glass-card {
+    background: linear-gradient(
+      135deg,
+      hsl(225 16% 11% / 0.8),
+      hsl(225 16% 8% / 0.9)
+    );
+    border: 1px solid hsl(224 12% 18%);
+    backdrop-filter: blur(20px);
+    box-shadow:
+      0 0 0 1px hsl(224 12% 20% / 0.3),
+      0 2px 8px hsl(228 18% 3% / 0.3),
+      0 12px 40px hsl(228 18% 3% / 0.2);
+  }
+
+  /* Subtle inner glow on cards */
+  .glass-card-glow {
+    background: linear-gradient(
+      135deg,
+      hsl(225 16% 12% / 0.85),
+      hsl(225 16% 8% / 0.95)
+    );
+    border: 1px solid hsl(224 12% 18%);
+    backdrop-filter: blur(20px);
+    box-shadow:
+      0 0 0 1px hsl(224 12% 20% / 0.3),
+      inset 0 1px 0 hsl(224 12% 24% / 0.4),
+      0 2px 8px hsl(228 18% 3% / 0.3),
+      0 12px 40px hsl(228 18% 3% / 0.2);
+  }
+
+  /* Input field styling */
+  .input-dark {
+    background: hsl(225 16% 8%);
+    border: 1px solid hsl(224 12% 16%);
+    transition: all 0.2s ease;
+  }
+  .input-dark:focus,
+  .input-dark:focus-within {
+    border-color: hsl(38 92% 50% / 0.4);
+    box-shadow: 0 0 0 3px hsl(38 92% 50% / 0.08);
+  }
+  .input-dark:hover:not(:focus) {
+    border-color: hsl(224 12% 22%);
+  }
+
+  /* Accent button */
+  .btn-accent {
+    background: hsl(38 92% 50%);
+    color: hsl(38 100% 8%);
+    font-weight: 600;
+    transition: all 0.15s ease;
+  }
+  .btn-accent:hover {
+    background: hsl(38 92% 45%);
+  }
+  .btn-accent:active {
+    background: hsl(38 92% 40%);
+  }
+
+  /* Assignment card hover */
+  .assignment-card {
+    background: hsl(225 16% 9%);
+    border: 1px solid hsl(224 12% 14%);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .assignment-card:hover {
+    border-color: hsl(224 12% 22%);
+    background: hsl(225 16% 10.5%);
+    box-shadow: 0 4px 24px hsl(228 18% 3% / 0.4);
+    transform: translateY(-1px);
+  }
+
+  /* Status badge styles */
+  .status-safe {
+    background: hsl(152 60% 42% / 0.15);
+    color: hsl(152 60% 55%);
+    border: 1px solid hsl(152 60% 42% / 0.2);
+  }
+  .status-warn {
+    background: hsl(38 92% 50% / 0.12);
+    color: hsl(38 92% 60%);
+    border: 1px solid hsl(38 92% 50% / 0.2);
+  }
+  .status-danger {
+    background: hsl(0 70% 50% / 0.12);
+    color: hsl(0 80% 65%);
+    border: 1px solid hsl(0 70% 50% / 0.2);
+  }
+
+  /* Stagger animation for lists */
+  @keyframes fadeSlideIn {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .animate-fade-slide-in {
+    animation: fadeSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) both;
+  }
+
+  /* Subtle pulse for countdown */
+  @keyframes softPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+  }
+  .animate-soft-pulse {
+    animation: softPulse 2s ease-in-out infinite;
+  }
+
+  /* Homepage gradient background */
+  .hero-gradient {
+    background:
+      radial-gradient(ellipse 60% 50% at 50% 0%, hsl(38 92% 50% / 0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 80% 60% at 80% 100%, hsl(225 40% 40% / 0.04) 0%, transparent 50%),
+      hsl(228 18% 6%);
+  }
+
+  /* Divider line with gradient fade */
+  .divider-fade {
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      hsl(224 12% 20%),
+      transparent
+    );
   }
 }

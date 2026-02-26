@@ -3,13 +3,6 @@ import { api } from "@/utils/api";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { useForm } from "@tanstack/react-form";
 import { format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
@@ -34,7 +27,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { PlusCircle, Trash2, CheckCircle } from "lucide-react";
+import {
+  PlusCircle,
+  Trash2,
+  CheckCircle,
+  ExternalLink,
+  ArrowLeft,
+} from "lucide-react";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import Link from "next/link";
 import type { RouterOutputs } from "@/utils/api";
@@ -174,31 +173,65 @@ function Home({ sessionId }: { sessionId: string }) {
         <meta name="description" content="Manage your assignments" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="min-h-screen bg-[#121212] p-8">
-        <div className="mx-auto max-w-4xl space-y-6">
-          <h1 className="text-3xl font-medium text-white/90">
-            When the Assignment
-          </h1>
-
-          {/* Submit Form */}
-          <Card className="border-0 bg-[#1a1a1a] text-white/90">
-            <CardHeader>
-              <CardTitle className="text-2xl font-medium">
-                Create New Assignment
-              </CardTitle>
-              <CardDescription className="text-white/60">
-                Fill out the form below to create a new assignment.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  void form.handleSubmit();
-                }}
-                className="space-y-6"
+      <main className="noise-bg min-h-screen bg-[hsl(228,18%,6%)] pb-16">
+        <div className="relative z-10 mx-auto max-w-6xl px-5 pt-8">
+          {/* Header */}
+          <div className="mb-8 flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <Link
+                href="/"
+                className="flex h-8 w-8 items-center justify-center rounded-lg border border-[hsl(224,12%,16%)] bg-[hsl(225,16%,9%)] text-[hsl(218,11%,50%)] transition-all hover:border-[hsl(224,12%,22%)] hover:text-[hsl(210,20%,88%)]"
               >
+                <ArrowLeft className="h-3.5 w-3.5" />
+              </Link>
+              <div className="flex items-center gap-2.5">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" className="text-[hsl(38,92%,50%)]"><path fill="currentColor" d="M10.6 16.05L17.65 9l-1.4-1.4l-5.65 5.65l-2.85-2.85l-1.4 1.4zM5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h4.2q.325-.9 1.088-1.45T12 1t1.713.55T14.8 3H19q.825 0 1.413.588T21 5v14q0 .825-.587 1.413T19 21zm7.538-16.963q.212-.212.212-.537t-.213-.537T12 2.75t-.537.213t-.213.537t.213.538t.537.212t.538-.213"/></svg>
+                <h1 className="text-xl font-semibold tracking-tight text-[hsl(210,20%,95%)]">
+                  When the Assignment
+                </h1>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <ClipboardButton
+                textForCopying={`http://${env.NEXT_PUBLIC_SITE_URL}/api/calendar?sessionId=${sessionId}`}
+              >
+                Calendar Link
+              </ClipboardButton>
+              <a
+                href={`webcal://${env.NEXT_PUBLIC_SITE_URL}/api/calendar?sessionId=${sessionId}`}
+              >
+                <Button
+                  variant="outline"
+                  className="border-[hsl(224,12%,16%)] bg-transparent text-[hsl(210,20%,80%)] hover:border-[hsl(224,12%,22%)] hover:bg-[hsl(225,16%,10%)] hover:text-[hsl(210,20%,92%)]"
+                >
+                  <CalendarIcon className="h-3.5 w-3.5" />
+                  Subscribe
+                </Button>
+              </a>
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-8 md:flex-row md:items-start">
+          {/* Create Assignment Form */}
+          <div className="glass-card-glow rounded-xl p-6 md:sticky md:top-8 md:w-[380px] md:shrink-0">
+            <div className="mb-5">
+              <h2 className="text-lg font-semibold text-[hsl(210,20%,92%)]">
+                New Assignment
+              </h2>
+              <p className="mt-1 text-sm text-[hsl(218,11%,45%)]">
+                Add an upcoming deadline to track.
+              </p>
+            </div>
+
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                void form.handleSubmit();
+              }}
+              className="space-y-5"
+            >
+              <div className="grid gap-5">
                 <form.Field
                   name="title"
                   validators={{
@@ -211,10 +244,10 @@ function Home({ sessionId }: { sessionId: string }) {
                   }}
                 >
                   {(field) => (
-                    <div className="space-y-2">
+                    <div className="space-y-1.5">
                       <label
                         htmlFor={field.name}
-                        className="text-base font-medium text-white/90"
+                        className="text-[13px] font-medium text-[hsl(218,11%,55%)]"
                       >
                         Title
                       </label>
@@ -225,10 +258,10 @@ function Home({ sessionId }: { sessionId: string }) {
                         onBlur={field.handleBlur}
                         onChange={(e) => field.handleChange(e.target.value)}
                         placeholder="Enter assignment title"
-                        className="border-0 bg-[#2a2a2a] text-white/90 placeholder:text-white/40"
+                        className="input-dark h-10 rounded-lg border bg-[hsl(225,16%,8%)] text-[hsl(210,20%,88%)] placeholder:text-[hsl(218,11%,35%)] focus-visible:ring-0"
                       />
                       {field.state.meta.errors.length > 0 && (
-                        <p className="text-sm text-red-500">
+                        <p className="text-xs text-red-400">
                           {field.state.meta.errors.join(", ")}
                         </p>
                       )}
@@ -238,16 +271,19 @@ function Home({ sessionId }: { sessionId: string }) {
 
                 <form.Field name="url">
                   {(field) => (
-                    <div className="space-y-2">
-                      <label className="text-base font-medium text-white/90">
-                        Assignment Link
+                    <div className="space-y-1.5">
+                      <label className="text-[13px] font-medium text-[hsl(218,11%,55%)]">
+                        Link
+                        <span className="ml-1.5 text-[hsl(218,11%,35%)]">
+                          (optional)
+                        </span>
                       </label>
                       <Input
                         type="url"
                         value={field.state.value}
                         onChange={(e) => field.handleChange(e.target.value)}
                         placeholder="https://..."
-                        className="border-0 bg-[#2a2a2a] text-white/90 placeholder:text-white/40"
+                        className="input-dark h-10 rounded-lg border bg-[hsl(225,16%,8%)] text-[hsl(210,20%,88%)] placeholder:text-[hsl(218,11%,35%)] focus-visible:ring-0"
                       />
                     </div>
                   )}
@@ -255,19 +291,19 @@ function Home({ sessionId }: { sessionId: string }) {
 
                 <form.Field name="courseCode">
                   {(field) => (
-                    <div className="space-y-2">
-                      <label className="text-base font-medium text-white/90">
-                        Course Code
+                    <div className="space-y-1.5">
+                      <label className="text-[13px] font-medium text-[hsl(218,11%,55%)]">
+                        Course
                       </label>
                       <div className="flex gap-2">
                         <Select
                           value={field.state.value}
                           onValueChange={field.handleChange}
                         >
-                          <SelectTrigger className="border-0 bg-[#2a2a2a] text-white/90">
+                          <SelectTrigger className="input-dark h-10 rounded-lg border bg-[hsl(225,16%,8%)] text-[hsl(210,20%,88%)] focus:ring-0 [&>span]:text-[hsl(218,11%,35%)] [&[data-state=open]>span]:text-[hsl(210,20%,88%)]">
                             <SelectValue placeholder="Select a course" />
                           </SelectTrigger>
-                          <SelectContent className="border-0 bg-[#2a2a2a] text-white/90">
+                          <SelectContent className="rounded-lg border-[hsl(224,12%,18%)] bg-[hsl(225,16%,10%)] text-[hsl(210,20%,88%)]">
                             {courses.isLoading ? (
                               <SelectItem value="loading">
                                 Loading courses...
@@ -277,6 +313,7 @@ function Home({ sessionId }: { sessionId: string }) {
                                 <SelectItem
                                   key={course.code}
                                   value={course.code}
+                                  className="focus:bg-[hsl(225,16%,14%)] focus:text-[hsl(210,20%,92%)]"
                                 >
                                   {course.code} - {course.name}
                                 </SelectItem>
@@ -293,14 +330,16 @@ function Home({ sessionId }: { sessionId: string }) {
                             <Button
                               variant="outline"
                               size="icon"
-                              className="border-0 bg-[#2a2a2a] text-white/90 hover:bg-[#3a3a3a]"
+                              className="h-10 w-10 shrink-0 rounded-lg border-[hsl(224,12%,16%)] bg-[hsl(225,16%,8%)] text-[hsl(218,11%,50%)] hover:border-[hsl(224,12%,22%)] hover:bg-[hsl(225,16%,12%)] hover:text-[hsl(38,92%,55%)]"
                             >
                               <PlusCircle className="h-4 w-4" />
                             </Button>
                           </DialogTrigger>
-                          <DialogContent className="border-0 bg-[#1a1a1a] text-white/90">
+                          <DialogContent className="glass-card-glow rounded-xl border-[hsl(224,12%,18%)] bg-[hsl(225,16%,9%)] text-[hsl(210,20%,92%)]">
                             <DialogHeader>
-                              <DialogTitle>Create New Course</DialogTitle>
+                              <DialogTitle className="text-lg font-semibold text-[hsl(210,20%,95%)]">
+                                New Course
+                              </DialogTitle>
                             </DialogHeader>
                             <form
                               onSubmit={(e) => {
@@ -322,8 +361,8 @@ function Home({ sessionId }: { sessionId: string }) {
                                 }}
                               >
                                 {(field) => (
-                                  <div className="space-y-2">
-                                    <label className="text-sm font-medium text-white/90">
+                                  <div className="space-y-1.5">
+                                    <label className="text-[13px] font-medium text-[hsl(218,11%,55%)]">
                                       Course Code
                                     </label>
                                     <Input
@@ -332,10 +371,10 @@ function Home({ sessionId }: { sessionId: string }) {
                                         field.handleChange(e.target.value)
                                       }
                                       placeholder="e.g., 3AC3"
-                                      className="border-0 bg-[#2a2a2a] text-white/90 placeholder:text-white/40"
+                                      className="input-dark h-10 rounded-lg border bg-[hsl(225,16%,8%)] text-[hsl(210,20%,88%)] placeholder:text-[hsl(218,11%,35%)] focus-visible:ring-0"
                                     />
                                     {field.state.meta.errors.length > 0 && (
-                                      <p className="text-sm text-red-500">
+                                      <p className="text-xs text-red-400">
                                         {field.state.meta.errors.join(", ")}
                                       </p>
                                     )}
@@ -355,8 +394,8 @@ function Home({ sessionId }: { sessionId: string }) {
                                 }}
                               >
                                 {(field) => (
-                                  <div className="space-y-2">
-                                    <label className="text-sm font-medium text-white/90">
+                                  <div className="space-y-1.5">
+                                    <label className="text-[13px] font-medium text-[hsl(218,11%,55%)]">
                                       Course Name
                                     </label>
                                     <Input
@@ -365,10 +404,10 @@ function Home({ sessionId }: { sessionId: string }) {
                                         field.handleChange(e.target.value)
                                       }
                                       placeholder="e.g., Algorithms and Complexity"
-                                      className="border-0 bg-[#2a2a2a] text-white/90 placeholder:text-white/40"
+                                      className="input-dark h-10 rounded-lg border bg-[hsl(225,16%,8%)] text-[hsl(210,20%,88%)] placeholder:text-[hsl(218,11%,35%)] focus-visible:ring-0"
                                     />
                                     {field.state.meta.errors.length > 0 && (
-                                      <p className="text-sm text-red-500">
+                                      <p className="text-xs text-red-400">
                                         {field.state.meta.errors.join(", ")}
                                       </p>
                                     )}
@@ -383,9 +422,9 @@ function Home({ sessionId }: { sessionId: string }) {
                                 ]}
                               >
                                 {([canSubmit, isSubmitting]) => (
-                                  <Button
+                                  <button
                                     type="submit"
-                                    className="w-full bg-[#00c853] text-black hover:bg-[#00b34a]"
+                                    className="btn-accent w-full rounded-lg py-2.5 text-sm disabled:opacity-50"
                                     disabled={
                                       !canSubmit || createCourse.isPending
                                     }
@@ -393,7 +432,7 @@ function Home({ sessionId }: { sessionId: string }) {
                                     {isSubmitting || createCourse.isPending
                                       ? "Creating..."
                                       : "Create Course"}
-                                  </Button>
+                                  </button>
                                 )}
                               </courseForm.Subscribe>
                             </form>
@@ -417,8 +456,8 @@ function Home({ sessionId }: { sessionId: string }) {
                   }}
                 >
                   {(field) => (
-                    <div className="space-y-2">
-                      <label className="text-base font-medium text-white/90">
+                    <div className="space-y-1.5">
+                      <label className="text-[13px] font-medium text-[hsl(218,11%,55%)]">
                         Due Date
                       </label>
                       <Popover>
@@ -426,11 +465,11 @@ function Home({ sessionId }: { sessionId: string }) {
                           <Button
                             variant="outline"
                             className={cn(
-                              "w-full justify-start border-0 bg-[#2a2a2a] text-left font-normal text-white/90",
-                              !field.state.value && "text-white/40",
+                              "input-dark h-10 w-full justify-start rounded-lg border bg-[hsl(225,16%,8%)] text-left font-normal text-[hsl(210,20%,88%)] hover:bg-[hsl(225,16%,10%)] focus:ring-0",
+                              !field.state.value && "text-[hsl(218,11%,35%)]",
                             )}
                           >
-                            <CalendarIcon className="mr-2 h-4 w-4" />
+                            <CalendarIcon className="mr-2 h-3.5 w-3.5 text-[hsl(218,11%,45%)]" />
                             {field.state.value ? (
                               // eslint-disable-next-line @typescript-eslint/no-unsafe-call
                               format(
@@ -442,7 +481,7 @@ function Home({ sessionId }: { sessionId: string }) {
                             )}
                           </Button>
                         </PopoverTrigger>
-                        <PopoverContent className="w-auto border-0 p-0">
+                        <PopoverContent className="w-auto rounded-xl border-[hsl(224,12%,18%)] bg-[hsl(225,16%,9%)] p-0">
                           <div className="sm:flex">
                             <Calendar
                               mode="single"
@@ -464,7 +503,7 @@ function Home({ sessionId }: { sessionId: string }) {
                               }}
                               initialFocus
                             />
-                            <div className="flex flex-col divide-y sm:h-[300px] sm:flex-row sm:divide-x sm:divide-y-0">
+                            <div className="flex flex-col divide-y divide-[hsl(224,12%,16%)] sm:h-[300px] sm:flex-row sm:divide-x sm:divide-y-0">
                               <ScrollArea className="w-64 sm:w-auto">
                                 <div className="flex p-2 sm:flex-col">
                                   {Array.from({ length: 24 }, (_, i) => i)
@@ -541,169 +580,171 @@ function Home({ sessionId }: { sessionId: string }) {
                         </PopoverContent>
                       </Popover>
                       {field.state.meta.errors.length > 0 && (
-                        <p className="text-sm text-red-500">
+                        <p className="text-xs text-red-400">
                           {field.state.meta.errors.join(", ")}
                         </p>
                       )}
                     </div>
                   )}
                 </form.Field>
+              </div>
 
-                <form.Subscribe
-                  selector={(state) => [state.canSubmit, state.isSubmitting]}
-                >
-                  {([canSubmit, isSubmitting]) => (
-                    <Button
-                      type="submit"
-                      className="w-full bg-[#00c853] text-black hover:bg-[#00b34a]"
-                      disabled={!canSubmit || createAssignment.isPending}
-                    >
-                      {isSubmitting || createAssignment.isPending
-                        ? "Submitting..."
-                        : "Submit Assignment"}
-                    </Button>
-                  )}
-                </form.Subscribe>
-              </form>
-            </CardContent>
-          </Card>
+              <form.Subscribe
+                selector={(state) => [state.canSubmit, state.isSubmitting]}
+              >
+                {([canSubmit, isSubmitting]) => (
+                  <button
+                    type="submit"
+                    className="btn-accent w-full rounded-lg py-2.5 text-sm disabled:opacity-50"
+                    disabled={!canSubmit || createAssignment.isPending}
+                  >
+                    {isSubmitting || createAssignment.isPending
+                      ? "Submitting..."
+                      : "Add Assignment"}
+                  </button>
+                )}
+              </form.Subscribe>
+            </form>
+          </div>
 
           {/* Assignments List */}
-          <Card className="border-0 bg-[#1a1a1a] text-white/90">
-            <CardHeader className="flex flex-row justify-between">
-              <div>
-                <CardTitle>Current Assignments</CardTitle>
-                <CardDescription>
-                  View and manage your existing assignments.
-                </CardDescription>
+          <div className="min-w-0 flex-1">
+            <div className="mb-4 flex items-center justify-between">
+              <h2 className="text-sm font-semibold uppercase tracking-widest text-[hsl(218,11%,45%)]">
+                Assignments
+                {session.data?.assignments && session.data.assignments.length > 0 && (
+                  <span className="ml-2 inline-flex h-5 w-5 items-center justify-center rounded-full bg-[hsl(225,16%,14%)] text-[11px] font-medium tabular-nums text-[hsl(218,11%,55%)]">
+                    {session.data.assignments.length}
+                  </span>
+                )}
+              </h2>
+            </div>
+
+            {session.isLoading ? (
+              <div className="flex items-center justify-center py-16">
+                <div className="h-5 w-5 animate-spin rounded-full border-2 border-[hsl(224,12%,20%)] border-t-[hsl(38,92%,50%)]" />
               </div>
-              <div className="flex flex-row space-x-3">
-                <ClipboardButton
-                  textForCopying={`http://${env.NEXT_PUBLIC_SITE_URL}/api/calendar?sessionId=${sessionId}`}
-                >
-                  Calendar Link
-                </ClipboardButton>
-                <a
-                  href={`webcal://${env.NEXT_PUBLIC_SITE_URL}/api/calendar?sessionId=${sessionId}`}
-                >
-                  <Button>
-                    <CalendarIcon />
-                    Subscribe
-                  </Button>
-                </a>
-              </div>
-            </CardHeader>
-            <CardContent>
-              {session.isLoading ? (
-                <p className="text-center text-muted-foreground">Loading...</p>
-              ) : session.data?.assignments.length === 0 ? (
-                <p className="text-center text-muted-foreground">
-                  No assignments yet
-                </p>
-              ) : (
-                <div className="space-y-4">
-                  {session.data?.assignments
-                    ?.sort(
-                      (a, b) =>
-                        new Date(a.dueDate).getTime() -
-                        new Date(b.dueDate).getTime(),
-                    )
-                    .map((assignment) => {
-                      const dueDate = new Date(assignment.dueDate);
-                      const today = new Date(); // This will now update every second
-                      const timeLeft = dueDate.getTime() - today.getTime();
-                      const daysLeft = Math.ceil(
-                        timeLeft / (1000 * 60 * 60 * 24),
-                      );
-
-                      let statusColor = "bg-green-500";
-                      if (daysLeft < 0) statusColor = "bg-red-500";
-                      else if (daysLeft <= 3) statusColor = "bg-yellow-500";
-
-                      // Calculate detailed time remaining when less than 24 hours
-                      const hoursLeft = Math.floor(timeLeft / (1000 * 60 * 60));
-                      const minutesLeft = Math.floor(
-                        (timeLeft % (1000 * 60 * 60)) / (1000 * 60),
-                      );
-                      const secondsLeft = Math.floor(
-                        (timeLeft % (1000 * 60)) / 1000,
-                      );
-
-                      const getTimeDisplay = () => {
-                        if (timeLeft < 0) return "Overdue";
-                        if (daysLeft > 1) return `${daysLeft} days left`;
-                        if (timeLeft < 1000 * 60 * 60 * 24) {
-                          return `${hoursLeft}h ${minutesLeft}m ${secondsLeft}s left`;
-                        }
-                        return "Due today";
-                      };
-
-                      return (
-                        <div key={assignment.id}>
-                          <Link
-                            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                            href={assignment.url ?? "#"}
-                            target={assignment.url ? "_blank" : undefined}
-                            className="flex-1 cursor-pointer"
-                            onClick={(e) => {
-                              if (!assignment.url) {
-                                e.preventDefault();
-                              }
-                            }}
-                          >
-                            <div className="rounded-lg border p-4">
-                              <div className="flex items-start justify-between">
-                                <div>
-                                  <h3 className="text-lg font-semibold">
-                                    {assignment.title}
-                                  </h3>
-                                  <p className="text-sm text-muted-foreground">
-                                    {assignment.course.code} -{" "}
-                                    {assignment.course.name}
-                                  </p>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                  <div
-                                    className={`rounded-full ${statusColor} px-3 py-1 text-sm font-medium text-black`}
-                                  >
-                                    {getTimeDisplay()}
-                                  </div>
-                                  <Button
-                                    variant="ghost"
-                                    size="lg"
-                                    onClick={(e) => {
-                                      e.preventDefault();
-                                      e.stopPropagation();
-                                      deleteAssignment.mutate({
-                                        id: assignment.id,
-                                      });
-                                    }}
-                                    className="hover:bg-red-500/10"
-                                  >
-                                    {timeLeft < 0 ? (
-                                      <CheckCircle className="text-green-500" />
-                                    ) : (
-                                      <Trash2 className="h-10 w-10 *:text-red-500" />
-                                    )}
-                                  </Button>
-                                </div>
-                              </div>
-                              <p className="mt-2 text-sm text-muted-foreground">
-                                Due: {dueDate.toLocaleDateString()} at{" "}
-                                {dueDate.toLocaleTimeString([], {
-                                  hour: "2-digit",
-                                  minute: "2-digit",
-                                })}
-                              </p>
-                            </div>
-                          </Link>
-                        </div>
-                      );
-                    })}
+            ) : session.data?.assignments.length === 0 ? (
+              <div className="glass-card rounded-xl py-16 text-center">
+                <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-[hsl(225,16%,12%)]">
+                  <CalendarIcon className="h-4 w-4 text-[hsl(218,11%,40%)]" />
                 </div>
-              )}
-            </CardContent>
-          </Card>
+                <p className="text-sm text-[hsl(218,11%,45%)]">
+                  No assignments yet. Add one above to get started.
+                </p>
+              </div>
+            ) : (
+              <div className="space-y-2">
+                {session.data?.assignments
+                  ?.sort(
+                    (a, b) =>
+                      new Date(a.dueDate).getTime() -
+                      new Date(b.dueDate).getTime(),
+                  )
+                  .map((assignment, index) => {
+                    const dueDate = new Date(assignment.dueDate);
+                    const today = new Date();
+                    const timeLeft = dueDate.getTime() - today.getTime();
+                    const daysLeft = Math.ceil(
+                      timeLeft / (1000 * 60 * 60 * 24),
+                    );
+
+                    let statusClass = "status-safe";
+                    if (daysLeft < 0) statusClass = "status-danger";
+                    else if (daysLeft <= 3) statusClass = "status-warn";
+
+                    const hoursLeft = Math.floor(timeLeft / (1000 * 60 * 60));
+                    const minutesLeft = Math.floor(
+                      (timeLeft % (1000 * 60 * 60)) / (1000 * 60),
+                    );
+                    const secondsLeft = Math.floor(
+                      (timeLeft % (1000 * 60)) / 1000,
+                    );
+
+                    const getTimeDisplay = () => {
+                      if (timeLeft < 0) return "Overdue";
+                      if (daysLeft > 1) return `${daysLeft} days left`;
+                      if (timeLeft < 1000 * 60 * 60 * 24) {
+                        return `${hoursLeft}h ${minutesLeft}m ${secondsLeft}s left`;
+                      }
+                      return "Due today";
+                    };
+
+                    return (
+                      <div
+                        key={assignment.id}
+                        className="animate-fade-slide-in"
+                        style={{ animationDelay: `${index * 40}ms` }}
+                      >
+                        <div className="assignment-card group rounded-xl p-4">
+                          <div className="flex items-center justify-between gap-3">
+                            <h3 className="min-w-0 truncate text-[15px] font-semibold text-[hsl(210,20%,90%)]">
+                              {assignment.title}
+                            </h3>
+                            <div className="flex shrink-0 items-center gap-2">
+                              {assignment.url && (
+                                <Link
+                                  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                                  href={assignment.url}
+                                  target="_blank"
+                                  className="text-[hsl(218,11%,40%)] transition-colors hover:text-[hsl(38,92%,55%)]"
+                                  onClick={(e) => e.stopPropagation()}
+                                >
+                                  <ExternalLink className="h-3.5 w-3.5" />
+                                </Link>
+                              )}
+                              <button
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  e.stopPropagation();
+                                  deleteAssignment.mutate({
+                                    id: assignment.id,
+                                  });
+                                }}
+                                className="flex h-7 w-7 items-center justify-center rounded-lg text-[hsl(218,11%,35%)] opacity-0 transition-all hover:bg-[hsl(0,70%,50%,0.08)] hover:text-red-400 group-hover:opacity-100"
+                              >
+                                {timeLeft < 0 ? (
+                                  <CheckCircle className="h-4 w-4 text-[hsl(152,60%,55%)]" />
+                                ) : (
+                                  <Trash2 className="h-3.5 w-3.5" />
+                                )}
+                              </button>
+                            </div>
+                          </div>
+                          <div className="mt-2 flex flex-wrap items-center gap-2 text-xs text-[hsl(218,11%,45%)]">
+                            <span className="inline-flex items-center rounded-md bg-[hsl(225,16%,13%)] px-2 py-0.5 font-medium text-[hsl(218,11%,55%)]">
+                              {assignment.course.code}
+                            </span>
+                            <span>
+                              {dueDate.toLocaleDateString(undefined, {
+                                month: "short",
+                                day: "numeric",
+                              })}{" "}
+                              at{" "}
+                              {dueDate.toLocaleTimeString([], {
+                                hour: "2-digit",
+                                minute: "2-digit",
+                              })}
+                            </span>
+                            <span
+                              className={`${statusClass} ${
+                                timeLeft > 0 &&
+                                timeLeft < 1000 * 60 * 60 * 24
+                                  ? "animate-soft-pulse"
+                                  : ""
+                              } ml-auto inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium tabular-nums`}
+                            >
+                              {getTimeDisplay()}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+              </div>
+            )}
+          </div>
+          </div>
         </div>
       </main>
     </>

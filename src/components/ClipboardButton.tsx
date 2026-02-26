@@ -19,16 +19,20 @@ export default function ClipboardButton({
   };
 
   return (
-    <Button onClick={handleCopy}>
+    <Button
+      onClick={handleCopy}
+      variant="outline"
+      className="border-[hsl(224,12%,16%)] bg-transparent text-[hsl(210,20%,80%)] transition-all hover:border-[hsl(224,12%,22%)] hover:bg-[hsl(225,16%,10%)] hover:text-[hsl(210,20%,92%)]"
+    >
       {enabled ? (
         <>
-          <Clipboard />
+          <Clipboard className="h-3.5 w-3.5" />
           {children}
         </>
       ) : (
         <>
-          <Check />
-          Copied!
+          <Check className="h-3.5 w-3.5 text-[hsl(152,60%,55%)]" />
+          <span className="text-[hsl(152,60%,55%)]">Copied!</span>
         </>
       )}
     </Button>
